@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'assets/img/logo2.png' %}" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">  
+	<style>
+	body {
+		background: url("{% static 'assets/img/about.jpg' %}");
+		background-size: cover;
+           background-repeat: no-repeat;
+           justify-content:center;
+           align-items:center;
+           font-family: "Open Sans", sans-serif;
+           color: #100e0e;
+	}
+
+	h2 {
+		text-align: center;
+		color: #000;
+		margin-bottom: 30px;
+		margin-top: 102px;
+	}
+
+	form {
+		max-width: 500px;
+		margin: 0 auto; /* Center-align the form horizontally */
+		padding: 52px;
+		background-color: rgba(255, 255, 255, 0.8); /* Opacity adjusted */
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+		border-radius: 119px;
+		text-align: center;
+		
+	}
+
+	label {
+		display: block;
+		font-weight: bold;
+		margin-bottom: 10px;
+	}
+
+	input {
+		width: 100%;
+		padding: 12px;
+		margin-bottom: 15px;
+		border: 1px solid #ccc;
+		border-radius: 20px;
+	}
+
+	button {
+		background-color: #0074e4;
+		color: #fff;
+		border: none;
+		border-radius: 20px;
+		padding: 15px 20px;
+		cursor: pointer;
+	}
+
+	button:hover {
+		background-color: #005bb5;
+	}
+
+	a {
+		text-decoration: none;
+		color: #0074e4; /* Change link color to blue */
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	.error-message {
+		color: red;
+		font-weight: bold;
+		margin-bottom: 15px;
+	}
+
+	.success-message {
+		color: green;
+		font-weight: bold;
+	}
+	
+	</style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <!-- Logo added here -->
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'assets/img/logo1.png' %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'index' %}">Home</a>
+                </li>
+				<li class="nav-item">
+                    <a class="nav-link active" href="{% url 'signup' %}">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Form Container -->
+<div class="form-container">
+    <h2>Login</h2>
+    <form method="post" action=" {% url 'login' %}" id="login-form">
+         {% for message in messages %}  
+        <div class="alert alert-{{ message.tags}} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% csrf_token %}
+        <div class="form-element">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required onchange="validateEmail()">
+            <div class="error-message" id="username-error"></div>
+        </div>
+        <div class="form-element">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required onchange="validatePassword()">
+            <div class="error-message" id="password-error"></div>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="return validateLogin()" id="submit">LOGIN</button>
+        <span id="success-message" class="success-message"></span>
+		<br>
+        <a href="password_reset">Forgot Password</a>
+    </form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!--Footer-->
+<footer class="footer bg-dark text-light py-3">
+    <div class="container">
+        <div class="row">
+            <!-- Social Media Icons on the Left -->
+            <div class="col-md-6 text-start">
+                <p>Follow us:</p>
+                <a href="https://www.facebook.com" class="text-light me-3">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="https://www.twitter.com" class="text-light me-3">
+                    <i class="bi bi-twitter"></i>
+                </a>
+                <a href="https://www.instagram.com" class="text-light me-3">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com" class="text-light me-3">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="https://wa.me/yournumber" class="text-light">
+                    <i class="bi bi-whatsapp"></i>
+                </a>
+            </div>
+
+            <!-- Contact Info on the Right -->
+            <div class="col-md-6 text-end">
+                <p>&copy; 2024 Sahibs - Since 1929</p>
+                <p>Get in Touch: <a href="mailto:info@sahibstradr.com" class="text-light">info@sahibstradr.com</a></p>
+                <p>Sbk Real Estate - Al Durrah No.4 - Near GGICO Metro Station - Garhoud - Dubai</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
